@@ -3,7 +3,9 @@ package application
 type ProductService struct {
 	Persistence ProductPersistenceInterface
 }
-
+func NewProductService(persistence ProductPersistenceInterface) *ProductService {
+	return &ProductService{persistence}
+}
 func (s *ProductService) Get(id string) (ProductInterface, error) {
 
 	product, err := s.Persistence.Get(id)
