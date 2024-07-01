@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/codeedu/go-hexagonal/application"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -42,43 +43,45 @@ func (pd *ProductDB) create(product application.ProductInterface) (application.P
 		return nil, err
 	}
 	err = stmt.Close()
-	if err!= nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 	return product, nil
 }
 
-func (pd *ProductDB) update(product application.ProductInterface) (application.ProductInterface, error){
+func (pd *ProductDB) update(product application.ProductInterface) (application.ProductInterface, error) {
 	stmt, err := pd.db.Prepare("UPDATE products SET name =?, price =?, status =? WHERE id =?")
-    if err!= nil {
-        return nil, err
-    }
-    _, err = stmt.Exec(product.GetName(), product.GetPrice(), product.GetStatus(), product.GetID())
+	if err != nil {
+		return nil, err
+	}
+	_, err = stmt.Exec(product.GetName(), product.GetPrice(), product.GetStatus(), product.GetID())
 
-    if err!= nil {
-        return nil, err
-    }
-    err = stmt.Close()
-    if err!= nil {
-        return nil, err
-    }
-    return product, nil
+	if err != nil {
+		return nil, err
+	}
+	err = stmt.Close()
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
 }
 
 func (pd *ProductDB) Save(product application.ProductInterface) (application.ProductInterface, error) {
 	var rows int
-	pd.db.QueryRow("SELECT COUNT(*) FROM products WHERE id =?", product.GetID()).Scan(&rows)
+
+	pd.db.QueryRow("SELECT COUNT(*) FROM products WHERE id = ?", product.GetID()).Scan(&rows)
+	fmt.Printf("rows = %d\n", rows)
 
 	if rows == 0 {
-       _, err := pd.create(product)
-	   if err!= nil {
-           return nil, err
-       }
-    }else{
+		_, err := pd.create(product)
+		if err != nil {
+			return nil, err
+		}
+	} else {
 		_, err := pd.update(product)
-		if err!= nil {
-            return nil, err
-        }
+		if err != nil {
+			return nil, err
+		}
 
 	}
 	return product, nil
