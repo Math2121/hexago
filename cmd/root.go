@@ -7,8 +7,8 @@ import (
 	"database/sql"
 	"os"
 
-	"github.com/codeedu/go-hexagonal/adapters/database"
-	"github.com/codeedu/go-hexagonal/application"
+	"github.com/Math2121/hexago/adapters/database"
+	"github.com/Math2121/hexago/application"
 	"github.com/spf13/cobra"
 )
 

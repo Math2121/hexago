@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"testing"
 
-	"github.com/codeedu/go-hexagonal/adapters/database"
-	"github.com/codeedu/go-hexagonal/application"
+	"github.com/Math2121/hexago/adapters/database"
+	"github.com/Math2121/hexago/application"
 	"github.com/stretchr/testify/require"
 )
 

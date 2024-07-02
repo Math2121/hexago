@@ -1,8 +1,9 @@
-FROM golang:1.19.1
+FROM golang:1.22.4
 
 WORKDIR /go/src
 ENV PATH="/go/bin:${PATH}"
 
+COPY ./go.mod .
 RUN go get -u github.com/spf13/cobra@latest && \
     go install github.com/golang/mock/mockgen@v1.5.0 && \
     go install github.com/spf13/cobra-cli@latest
